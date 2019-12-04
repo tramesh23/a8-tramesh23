@@ -7,6 +7,9 @@ import javax.swing.JPanel;
 
 public class GameofLifeGame {
 	public static void main(String[] args) {
+		
+		/* Model-view relationship is created and the controller is their mediator */
+		
 		LifeModel model = new LifeModel();
 		LifeView view = new LifeView();
 		LifeController controller = new LifeController(model, view);

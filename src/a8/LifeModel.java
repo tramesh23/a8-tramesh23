@@ -29,12 +29,12 @@ public class LifeModel {
 		_board = new JSpotBoard(size,size);
 		
 		for (Spot s : _board) {
-			s.setBackground(new Color(0.8f, 0.8f, 0.8f));
-			s.setSpotColor(Color.BLACK);;
+			s.setBackground(Color.GRAY);
+			s.setSpotColor(Color.BLACK);
 		}
 		for (Spot s : next_board) {
-			s.setBackground(new Color(0.8f, 0.8f, 0.8f));
-			s.setSpotColor(Color.BLACK);;
+			s.setBackground(Color.GRAY);
+			s.setSpotColor(Color.BLACK);
 		}
 	}
 	
@@ -192,6 +192,9 @@ public class LifeModel {
 		updateObservers();
 	}
 	
+	/*
+	 * Results from pressing the settings button and checks out all of the fields to dynamically change the game
+	 */
 	public void updateSettings(int size, int low_birth, int high_birth, int low_death, int high_death, int t) {
 		this.size = size;
 		this.low_birth = low_birth;
@@ -206,11 +209,11 @@ public class LifeModel {
 		_board = new JSpotBoard(size,size);
 		
 		for (Spot s : _board) {
-			s.setBackground(new Color(0.8f, 0.8f, 0.8f));
+			s.setBackground(Color.GRAY);
 			s.setSpotColor(Color.BLACK);
 		}
 		for (Spot s : next_board) {
-			s.setBackground(new Color(0.8f, 0.8f, 0.8f));
+			s.setBackground(Color.GRAY);
 			s.setSpotColor(Color.BLACK);
 		}
 		updateObservers();

@@ -17,7 +17,6 @@ import javax.swing.JTextField;
 public class LifeView extends JPanel implements ActionListener, SpotListener {
 
 	private JSpotBoard _board;
-	private JSpotBoard _next_gen;
 	private JTextField size_field;
 	private JTextField _low_birth;
 	private JTextField _high_birth;
@@ -31,16 +30,11 @@ public class LifeView extends JPanel implements ActionListener, SpotListener {
 
 		/* Create SpotBoard and message label. */
 		_board = new JSpotBoard(10, 10);
-		_next_gen = new JSpotBoard(10, 10);
 		listeners = new ArrayList<LifeController>();
 		
 		for (Spot s : _board) {
-			s.setBackground(new Color(0.8f, 0.8f, 0.8f));
-			s.setSpotColor(Color.BLACK);;
-		}
-		for (Spot s : _next_gen) {
-			s.setBackground(new Color(0.8f, 0.8f, 0.8f));
-			s.setSpotColor(Color.BLACK);;
+			s.setBackground(Color.GRAY);
+			s.setSpotColor(Color.BLACK);
 		}
 
 		/* Set layout and place SpotBoard at center. */
@@ -72,7 +66,7 @@ public class LifeView extends JPanel implements ActionListener, SpotListener {
 		random_button.setActionCommand("random");
 		button_panel.add(random_button, BorderLayout.WEST);
 
-		/* Add subpanel in south area of layout. */
+		/* Add subpanels! */
 
 		add(button_panel, BorderLayout.SOUTH);
 		
@@ -109,33 +103,35 @@ public class LifeView extends JPanel implements ActionListener, SpotListener {
 		torus.setAlignmentX(Component.CENTER_ALIGNMENT);
 		settings_panel.add(torus);		
 		
-		JLabel size_label = new JLabel("Size:");
-		size_panel.add(size_label, BorderLayout.WEST);
+		/* Add labels */
+		
+		JLabel size_label = new JLabel("Size");
+		size_panel.add(size_label, BorderLayout.EAST);
 		size_field = new JTextField("10");
 		size_panel.add(size_field, BorderLayout.CENTER);
 		
-		JLabel low_birth_label = new JLabel("Low Birth:");
-		low_birth.add(low_birth_label, BorderLayout.WEST);
+		JLabel low_birth_label = new JLabel("Low Birth");
+		low_birth.add(low_birth_label, BorderLayout.EAST);
 		_low_birth = new JTextField("3");
 		low_birth.add(_low_birth, BorderLayout.CENTER);
 		
-		JLabel high_birth_label = new JLabel("High Birth:");
-		high_birth.add(high_birth_label, BorderLayout.WEST);
+		JLabel high_birth_label = new JLabel("High Birth");
+		high_birth.add(high_birth_label, BorderLayout.EAST);
 		_high_birth = new JTextField("3");
 		high_birth.add(_high_birth, BorderLayout.CENTER);
 		
-		JLabel low_death_label = new JLabel("Low Survival:");
-		low_survival.add(low_death_label, BorderLayout.WEST);
+		JLabel low_death_label = new JLabel("Low Survival");
+		low_survival.add(low_death_label, BorderLayout.EAST);
 		_low_death = new JTextField("2");
 		low_survival.add(_low_death, BorderLayout.CENTER);
 		
-		JLabel high_death_label = new JLabel("High Survival:");
-		high_survival.add(high_death_label, BorderLayout.WEST);
+		JLabel high_death_label = new JLabel("High Survival");
+		high_survival.add(high_death_label, BorderLayout.EAST);
 		_high_death = new JTextField("3");
 		high_survival.add(_high_death, BorderLayout.CENTER);
 		
-		JLabel torus_label = new JLabel("Torus On (1), Off (0):");
-		torus.add(torus_label, BorderLayout.WEST);
+		JLabel torus_label = new JLabel("Torus On (1), Off (0)");
+		torus.add(torus_label, BorderLayout.EAST);
 		_torus = new JTextField("0");
 		torus.add(_torus, BorderLayout.CENTER);
 		
@@ -144,10 +140,13 @@ public class LifeView extends JPanel implements ActionListener, SpotListener {
 		last.addActionListener(this);
 		last.setActionCommand("settings");
 		settings_panel.add(last);
-		add(settings_panel, BorderLayout.WEST);
+		add(settings_panel, BorderLayout.EAST);
 		_board.addSpotListener(this);
 	}
 	
+	/*
+	 * Goes through the listeners and gets their events (so button pressing)
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getActionCommand().contentEquals("settings") && 
@@ -200,9 +199,12 @@ public class LifeView extends JPanel implements ActionListener, SpotListener {
 	}
 	
 	public int getTorus() {
-		return Integer.parseInt(_high_death.getText());
+		return Integer.parseInt(_torus.getText());
 	}
 	
+	/*
+	 * Gets rid of very initial hi message and shows a new board every time
+	 */
 	public void setBoard(JSpotBoard board) {
 		remove(_initial);
 		remove(_board);

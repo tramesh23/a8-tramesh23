@@ -12,10 +12,12 @@ public class LifeController {
 		this.view = view;
 
 		view.addListener(this);
-
 		model.addObserver(this);
 	}
 	
+	/*
+	 * Depending on what button is clicked then do the thing specified in the button
+	 */
 	public void getEvent(ActionEvent e) {
 		if (e.getActionCommand().equals("restart")) {
 			model.resetGame();
