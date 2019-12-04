@@ -7,25 +7,16 @@ import javax.swing.JPanel;
 
 public class GameofLifeGame {
 	public static void main(String[] args) {
+		LifeModel model = new LifeModel();
+		LifeView view = new LifeView();
+		LifeController controller = new LifeController(model, view);
 		
 		/* Create top level window. */
 		
 		JFrame main_frame = new JFrame();
 		main_frame.setTitle("Game of Life");
 		main_frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-		/* Create panel for content. Uses BorderLayout. */
-		JPanel top_panel = new JPanel();
-		top_panel.setLayout(new BorderLayout());
-		main_frame.setContentPane(top_panel);
-
-		/* Create ExampleWidget component and put into center
-		 * of content panel.
-		 */
-		
-		GameofLifeWidget ttt = new GameofLifeWidget(10, 3, 3, 2, 3, true);
-		top_panel.add(ttt, BorderLayout.CENTER);
-
+		main_frame.setContentPane(view);
 
 		/* Pack main frame and make visible. */
 		

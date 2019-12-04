@@ -1,109 +1,60 @@
 package a8;
 
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.Color;
+import java.util.ArrayList;
+import java.util.List;
 
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+public class LifeModel {
 
-public class GameofLifeWidget extends JPanel implements ActionListener, SpotListener {
-
-	private JSpotBoard _board; /* SpotBoard playing area. */
+	private List<LifeController> observers;
+	private JSpotBoard _board;
 	private JSpotBoard next_board;
-	private JLabel _message; /* Label for messages. */
 	private int size;
 	private int low_birth;
 	private int high_birth;
 	private int low_death;
 	private int high_death;
 	private boolean torus;
-
-	public GameofLifeWidget(int size, int low_birth, int high_birth, int low_death, int high_death, boolean torus) {
+	
+	public LifeModel() {
+		size = 10;
+		low_birth = 3;
+		high_birth = 3;
+		low_death = 2;
+		high_death = 3;
+		torus = false;
 		
-		this.size = size;
-		this.low_birth = low_birth;
-		this.high_birth = high_birth;
-		this.low_death = low_death;
-		this.high_death = high_death;
-		this.torus = torus;
-
-		/* Create SpotBoard and message label. */
-
-		_board = new JSpotBoard(size, size);
+		observers = new ArrayList<LifeController>();
 		next_board = new JSpotBoard(size, size);
-		_message = new JLabel();
-
-		/* Set layout and place SpotBoard at center. */
-
-		setLayout(new BorderLayout());
-		add(_board, BorderLayout.CENTER);
-
-		/* Create subpanel for message area and buttons. */
-
-		JPanel button_message_panel = new JPanel();
-		button_message_panel.setLayout(new BorderLayout());
-
-		/* Reset button. Add ourselves as the action listener. */
-
-		JButton reset_button = new JButton("Restart");
-		reset_button.addActionListener(this);
-		reset_button.setActionCommand("restart");
-		button_message_panel.add(reset_button, BorderLayout.EAST);
+		_board = new JSpotBoard(size,size);
 		
-		/* Randomly fill button. Add ourselves as the action listener. */
-		
-		JButton random_button = new JButton("Randomly Fill");
-		random_button.addActionListener(this);
-		random_button.setActionCommand("random");
-		button_message_panel.add(random_button, BorderLayout.CENTER);
-		
-		/* Advance button. Add ourselves as the action listener. */
-		
-		JButton advance_button = new JButton("Advance");
-		advance_button.addActionListener(this);
-		advance_button.setActionCommand("advance");
-		button_message_panel.add(advance_button, BorderLayout.WEST);
-
-		/* Add subpanel in south area of layout. */
-
-		add(button_message_panel, BorderLayout.SOUTH);
-		
-		/*
-		 * Add ourselves as a spot listener for all of the spots on the spot board.
-		 */
-		_board.addSpotListener(this);
 		for (Spot s : _board) {
-			s.setBackground(Color.BLACK);
-			s.setSpotColor(Color.WHITE);
+			s.setBackground(new Color(0.8f, 0.8f, 0.8f));
+			s.setSpotColor(Color.BLACK);;
 		}
 		for (Spot s : next_board) {
-			s.setBackground(Color.BLACK);
+			s.setBackground(new Color(0.8f, 0.8f, 0.8f));
+			s.setSpotColor(Color.BLACK);;
 		}
-		
-
-		/* Reset game. */
-		resetGame();
 	}
-
-	/*
-	 * resetGame
-	 * 
-	 * Resets the game by clearing all the spots on the board, picking a new secret
-	 * spot, resetting game status fields, and displaying start message.
-	 * 
-	 */
-
-	private void resetGame() {
-		/*
-		 * Clear all spots on board. Uses the fact that SpotBoard implements
-		 * Iterable<Spot> to do this in a for-each loop.
-		 */
-
+	
+	public void addObserver(LifeController o) {
+		observers.add(o);
+	}
+	
+	public void updateObservers() {
+		for(LifeController o : observers)
+			o.updateBoard(_board);
+	}
+	
+	public void resetGame() {
 		for (Spot s : _board) {
 			s.clearSpot();
 		}
+		for (Spot s : next_board) {
+			s.clearSpot();
+		}
+		updateObservers();
 	}
 	
 	/*
@@ -112,11 +63,12 @@ public class GameofLifeWidget extends JPanel implements ActionListener, SpotList
 	 * Fills random spots
 	 */
 	
-	private void randomlyFill() {
-		for (Spot s: _board) {
-			if(Math.random()<.5)
-				spotClicked(s);
-		}
+	public void randomFill() {
+		resetGame();
+		for(Spot s: _board)
+			if(Math.random() < .5)
+				s.toggleSpot();
+		updateObservers();
 	}
 	
 	/*
@@ -125,7 +77,7 @@ public class GameofLifeWidget extends JPanel implements ActionListener, SpotList
 	 * Does next steps
 	 */
 	
-	private void advance() {
+	public void advance() {
 		for(Spot s: _board) {
 				int neighbors = 0;
 				if(s.getSpotX() > 0 && s.getSpotY() > 0 && !_board.getSpotAt(s.getSpotX()-1, s.getSpotY()-1).isEmpty()) {
@@ -237,39 +189,30 @@ public class GameofLifeWidget extends JPanel implements ActionListener, SpotList
 				s.setSpot();
 			next_board.getSpotAt(s.getSpotX(), s.getSpotY()).clearSpot();
 		}
+		updateObservers();
 	}
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		/* Handles game buttons.*/
-		if(e.getActionCommand().equals("restart"))
-			resetGame();
-		else if(e.getActionCommand().equals("random"))
-			randomlyFill();
-		else {advance();}
-	}
-
-	/*
-	 * Implementation of SpotListener below. Implements game logic as responses to
-	 * enter/exit/click on spots.
-	 */
-
-	@Override
-	public void spotClicked(Spot s) {
-
-		s.toggleSpot();
-	}
-
-	@Override
-	public void spotEntered(Spot s) {
-
-		s.highlightSpot();
-	}
-
-	@Override
-	public void spotExited(Spot s) {
-		/* Unhighlight spot. */
-
-		s.unhighlightSpot();
+	
+	public void updateSettings(int size, int low_birth, int high_birth, int low_death, int high_death, int t) {
+		this.size = size;
+		this.low_birth = low_birth;
+		this.high_birth = high_birth;
+		this.low_death = low_death;
+		this.high_death = high_death;
+		if(t == 0)
+			this.torus = false;
+		else {this.torus = true;}
+		
+		next_board = new JSpotBoard(size, size);
+		_board = new JSpotBoard(size,size);
+		
+		for (Spot s : _board) {
+			s.setBackground(new Color(0.8f, 0.8f, 0.8f));
+			s.setSpotColor(Color.BLACK);
+		}
+		for (Spot s : next_board) {
+			s.setBackground(new Color(0.8f, 0.8f, 0.8f));
+			s.setSpotColor(Color.BLACK);
+		}
+		updateObservers();
 	}
 }
