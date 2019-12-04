@@ -128,38 +128,94 @@ public class GameofLifeWidget extends JPanel implements ActionListener, SpotList
 	private void advance() {
 		for(Spot s: _board) {
 				int neighbors = 0;
-				if(s.getSpotX() > 0 && s.getSpotY() > 0 && !_board.getSpotAt(s.getSpotX()-1, s.getSpotY()-1).isEmpty())
+				if(s.getSpotX() > 0 && s.getSpotY() > 0 && !_board.getSpotAt(s.getSpotX()-1, s.getSpotY()-1).isEmpty()) {
 					neighbors++;
-				if(s.getSpotX() > 0 && (s.getSpotY() < size - 1) && !_board.getSpotAt(s.getSpotX()-1, s.getSpotY()+1).isEmpty())
+				}
+				if(s.getSpotX() > 0 && (s.getSpotY() < size - 1) && !_board.getSpotAt(s.getSpotX()-1, s.getSpotY()+1).isEmpty()) {
 					neighbors++;
-				if((s.getSpotX() < size - 1) && s.getSpotY() > 0 && !_board.getSpotAt(s.getSpotX()+1, s.getSpotY()-1).isEmpty())
+				}
+				if((s.getSpotX() < size - 1) && s.getSpotY() > 0 && !_board.getSpotAt(s.getSpotX()+1, s.getSpotY()-1).isEmpty()) {
 					neighbors++;
-				if((s.getSpotX() < size - 1) && (s.getSpotY() < size - 1) && !_board.getSpotAt(s.getSpotX()+1, s.getSpotY()+1).isEmpty())
+				}
+				if((s.getSpotX() < size - 1) && (s.getSpotY() < size - 1) && !_board.getSpotAt(s.getSpotX()+1, s.getSpotY()+1).isEmpty()) {
 					neighbors++;
-				if(s.getSpotX() > 0 && !_board.getSpotAt(s.getSpotX()-1, s.getSpotY()).isEmpty())
+				}
+				if(s.getSpotX() > 0 && !_board.getSpotAt(s.getSpotX()-1, s.getSpotY()).isEmpty()) {
 					neighbors++;
-				if(s.getSpotY() > 0 && !_board.getSpotAt(s.getSpotX(), s.getSpotY()-1).isEmpty())
+				}
+				if(s.getSpotY() > 0 && !_board.getSpotAt(s.getSpotX(), s.getSpotY()-1).isEmpty()) {
 					neighbors++;
-				if((s.getSpotX() < size - 1) && !_board.getSpotAt(s.getSpotX()+1, s.getSpotY()).isEmpty())
+				}
+				if((s.getSpotX() < size - 1) && !_board.getSpotAt(s.getSpotX()+1, s.getSpotY()).isEmpty()) {
 					neighbors++;
-				if((s.getSpotY() < size -1) && !_board.getSpotAt(s.getSpotX(), s.getSpotY()+1).isEmpty())
+				}
+				if((s.getSpotY() < size -1) && !_board.getSpotAt(s.getSpotX(), s.getSpotY()+1).isEmpty()) {
 					neighbors++;
+				}
 				if(torus) {
 					if(s.getSpotX() == 0 && s.getSpotY() == 0 && !_board.getSpotAt(size-1, size-1).isEmpty())
 						neighbors++;
+					if(s.getSpotX() == 0 && s.getSpotY() == 0 && !_board.getSpotAt(0, size-1).isEmpty())
+						neighbors++;
+					if(s.getSpotX() == 0 && s.getSpotY() == 0 && !_board.getSpotAt(size-1, 0).isEmpty())
+						neighbors++;
+					if(s.getSpotX() == 0 && s.getSpotY() == 0 && !_board.getSpotAt(size-1, 1).isEmpty())
+						neighbors++;
+					if(s.getSpotX() == 0 && s.getSpotY() == 0 && !_board.getSpotAt(1, size - 1).isEmpty())
+						neighbors++;
 					if(s.getSpotX() == 0 && (s.getSpotY() == size - 1) && !_board.getSpotAt(size-1, 0).isEmpty())
+						neighbors++;
+					if(s.getSpotX() == 0 && (s.getSpotY() == size - 1) && !_board.getSpotAt(size-1, size-1).isEmpty())
+						neighbors++;
+					if(s.getSpotX() == 0 && (s.getSpotY() == size - 1) && !_board.getSpotAt(0,0).isEmpty())
+						neighbors++;
+					if(s.getSpotX() == 0 && (s.getSpotY() == size - 1) && !_board.getSpotAt(1,0).isEmpty())
+						neighbors++;
+					if(s.getSpotX() == 0 && (s.getSpotY() == size - 1) && !_board.getSpotAt(size - 1, size - 2).isEmpty())
 						neighbors++;
 					if((s.getSpotX() == size - 1) && s.getSpotY() == 0 && !_board.getSpotAt(0, size-1).isEmpty())
 						neighbors++;
+					if((s.getSpotX() == size - 1) && s.getSpotY() == 0 && !_board.getSpotAt(size - 1, size - 1).isEmpty())
+						neighbors++;
+					if((s.getSpotX() == size - 1) && s.getSpotY() == 0 && !_board.getSpotAt(0,0).isEmpty())
+						neighbors++;
+					if((s.getSpotX() == size - 1) && s.getSpotY() == 0 && !_board.getSpotAt(0,1).isEmpty())
+						neighbors++;
+					if((s.getSpotX() == size - 1) && s.getSpotY() == 0 && !_board.getSpotAt(size - 2, size - 1).isEmpty())
+						neighbors++;
 					if((s.getSpotX() == size - 1) && (s.getSpotY() == size - 1) && !_board.getSpotAt(0, 0).isEmpty())
 						neighbors++;
-					if(s.getSpotX() == 0 && !_board.getSpotAt(size-1, s.getSpotY()).isEmpty())
+					if((s.getSpotX() == size - 1) && (s.getSpotY() == size - 1) && !_board.getSpotAt(0, size - 1).isEmpty())
 						neighbors++;
-					if(s.getSpotY() == 0 && !_board.getSpotAt(s.getSpotX(), size-1).isEmpty())
+					if((s.getSpotX() == size - 1) && (s.getSpotY() == size - 1) && !_board.getSpotAt(size - 1, 0).isEmpty())
 						neighbors++;
-					if((s.getSpotX() == size - 1) && !_board.getSpotAt(0, s.getSpotY()).isEmpty())
+					if((s.getSpotX() == size - 1) && (s.getSpotY() == size - 1) && !_board.getSpotAt(size-2, 0).isEmpty())
 						neighbors++;
-					if((s.getSpotY() == size - 1) && !_board.getSpotAt(s.getSpotX(), 0).isEmpty())
+					if((s.getSpotX() == size - 1) && (s.getSpotY() == size - 1) && !_board.getSpotAt(0, size -2).isEmpty())
+						neighbors++;
+					if(s.getSpotX() == 0 && s.getSpotY()!=0 && (s.getSpotY()!= size - 1) && !_board.getSpotAt(size-1, s.getSpotY()).isEmpty())
+						neighbors++;
+					if(s.getSpotX() == 0 && s.getSpotY()!=0 && (s.getSpotY()!= size - 1) && !_board.getSpotAt(size-1, s.getSpotY()-1).isEmpty())
+						neighbors++;
+					if(s.getSpotX() == 0 && s.getSpotY()!=0 && (s.getSpotY()!= size - 1) && !_board.getSpotAt(size-1, s.getSpotY()+1).isEmpty())
+						neighbors++;
+					if(s.getSpotY() == 0 && s.getSpotX()!= 0 && (s.getSpotX()!= size - 1) && !_board.getSpotAt(s.getSpotX(), size-1).isEmpty())
+						neighbors++;
+					if(s.getSpotY() == 0 && s.getSpotX()!= 0 && (s.getSpotX()!= size - 1) && !_board.getSpotAt(s.getSpotX()-1, size-1).isEmpty())
+						neighbors++;
+					if(s.getSpotY() == 0 && s.getSpotX()!= 0 && (s.getSpotX()!= size - 1) && !_board.getSpotAt(s.getSpotX()+1, size-1).isEmpty())
+						neighbors++;
+					if((s.getSpotX() == size - 1) && s.getSpotY()!=0 && (s.getSpotY()!= size - 1) && !_board.getSpotAt(0, s.getSpotY()).isEmpty())
+						neighbors++;
+					if((s.getSpotX() == size - 1) && s.getSpotY()!=0 && (s.getSpotY()!= size - 1) && !_board.getSpotAt(0, s.getSpotY()-1).isEmpty())
+						neighbors++;
+					if((s.getSpotX() == size - 1) && s.getSpotY()!=0 && (s.getSpotY()!= size - 1) && !_board.getSpotAt(0, s.getSpotY()+1).isEmpty())
+						neighbors++;
+					if((s.getSpotY() == size - 1) && s.getSpotX()!= 0 && (s.getSpotX()!= size - 1) && !_board.getSpotAt(s.getSpotX(), 0).isEmpty())
+						neighbors++;
+					if((s.getSpotY() == size - 1) && s.getSpotX()!= 0 && (s.getSpotX()!= size - 1) && !_board.getSpotAt(s.getSpotX()-1, 0).isEmpty())
+						neighbors++;
+					if((s.getSpotY() == size - 1) && s.getSpotX()!= 0 && (s.getSpotX()!= size - 1) && !_board.getSpotAt(s.getSpotX()+1, 0).isEmpty())
 						neighbors++;
 				}
 				if(s.isEmpty()) {
